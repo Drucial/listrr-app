@@ -1,23 +1,30 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
+import UserContext from '../../services/user-context'
 
 const ListInput = () => {
+  const { currentList, setCurrentList } = useContext(UserContext)
   const inputRef = useRef()
 
+  // Needs Enter Key Listener
+
   function validateNewListItem() {
-    // const input = inputRef.current
-    // let inputValue = input.value
+    const input = inputRef.current
+    let inputValue = inputRef.current.value
+    let list = currentList.list
 
-    // if(!input) return
-
-    // if(inputValue === '') {
-    //   return
-    // } else if(currentList.includes(inputValue)) {
-    //   input.placeholder = `Whoops! ${inputValue} is already on the list`
-    //   input.value = null
-    // } else {
-    //   setCurrentList([...currentList, inputValue])
-    //   input.value = null
-    // }
+    if(!input){
+      return
+    } else if(inputValue === '') {
+      return
+    } else if(currentList.list.includes(inputValue)) {
+      input.placeholder = `Whoops! ${inputValue} is already on the list`
+      input.value = null
+    } else {
+      list.push(inputValue)
+      setCurrentList({...currentList, list: list})
+      input.placeholder = 'Enter new list item'
+      input.value = null
+    }
   }
 
   return (
