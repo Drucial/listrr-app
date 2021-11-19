@@ -1,19 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import UserContext from '../../services/user-context'
 
 const SavedLists = () => {
-  // function handleClick(list) {
-  //   // setActiveList(list)
-  // }
+  const { user, setCurrentList } = useContext(UserContext)
+
+  function handleClick(list) {
+    setCurrentList(list)
+  }
   return (
     <ul className="saved-lists">
-      <UserContext.Consumer>
-      {user => (
-        user.user_lists.map((items, index) => 
-          <li key={index}>{items.title}</li>
-        )
-      )}
-      </UserContext.Consumer>
+      {user.user_lists.map((items, index) => 
+        <li key={index} onClick={() => {handleClick(items)}}>{items.title}</li>)}
     </ul>
   )
 }

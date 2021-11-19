@@ -7,12 +7,14 @@ import ListFooter from './ListFooter';
 const CurrentList = () => {
   
   return (
-    <div className="current-list-container">
-      <ListTitle />
-      <ListInput />
-      <ListItems />
-      <ListFooter />
-    </div>
+    <main>
+      <div className="current-list-container">
+        <ListTitle />
+        <ListInput />
+        <ListItems />
+        <ListFooter />
+      </div>
+    </main>
   )
 }
 

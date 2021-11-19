@@ -4,7 +4,7 @@ import UserDataService from "./services/users";
 import UserContext from './services/user-context.js'
 import Header from './components/header/Header';
 import Menu from './components/menu/Menu';
-import Main from './components/list/Main'
+import CurrentList from './components/list/CurrentList'
 import './styles/App.css';
 
 function App() {
@@ -37,20 +37,25 @@ function App() {
     })
   }
 
-  console.log(currentUser)
-
   const [menuOpen, setMenuOpen] = useState(false);
   const menuState = {
     menuOpen: menuOpen,
     setMenuOpen: setMenuOpen
   }
+  
+  const initialListState = {
+    title: 'New List',
+    list: []
+  }
+
+  const [currentList, setCurrentList] = useState(initialListState)
 
   return (
     <>
-    <UserContext.Provider value={currentUser}>
-      <Header menuState={menuState}/>
-      <Menu menuState={menuState}/>
-      <Main />
+    <UserContext.Provider value={{ user: currentUser, currentList: currentList, setCurrentList: setCurrentList}}>
+      <Header menuState={menuState} />
+      <Menu menuState={menuState} />
+      <CurrentList />
     </UserContext.Provider>
     </>
   );

@@ -1,17 +1,15 @@
-import React from 'react'
-// import Item from './Item'
+import React, { useContext } from 'react'
+import UserContext from '../../services/user-context'
 
 const ListItems = () => {
  
-  // function completeItem(items) {
-    // setCurrentList(currentList.filter(e => e !== items))
-  // }
+  const { currentList } = useContext(UserContext)
 
   return (
     <ul className="active-list">
-      {/* {currentList.map((items, index) =>
-      <Item items={items} index={index} key={index} completeItem={completeItem} />
-      )} */}
+      {currentList.list.map((items, index) =>
+      <li className="list-item" key={index}>{items}</li>
+      )}
     </ul>
   )
 }
