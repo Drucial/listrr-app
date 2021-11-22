@@ -1,8 +1,8 @@
 import React from 'react'
 
-const MenuToggle = (open) => {
+const MenuToggle = ({ menuState }) => {
   let cname = ""
-  open.open === true ? cname = "open" : cname = ""
+  menuState.menuOpen === true ? cname = "open" : cname = ""
   
   return (
     <div id="menu" className={cname}></div>

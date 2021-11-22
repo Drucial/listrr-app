@@ -1,21 +1,22 @@
 import React, { useRef, useContext } from "react";
-import UserContext from '../../services/user-context'
+import UserContext from '../../services/user-context';
 import { Transition, animated } from "react-spring";
 
 const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
-	const { user, currentList, setCurrentList } = useContext(UserContext)
+	const { currentList, setCurrentList, currentUser } = useContext(UserContext)
 	const inputRef = useRef()
-
 	// Needs Enter Key Listener
 
 	function validateTitle() {
 		const input = inputRef.current
 		let inputValue = inputRef.current.value
 		let titleArr =[]
+		let date = new Date().toISOString()
 
-		for(let list of user.user_lists){
+		if(currentUser.user_lists.length > 0) {
+		for(let list of currentUser.user_lists){
 			titleArr.push(list.title.toLowerCase())
-		}
+		}}
 
 		if(!inputRef){
 			return;
@@ -25,13 +26,13 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
 			input.placeholder = "You already have a list with that title!"
 			inputRef.current.value = ""
 		} else {
-			setCurrentList({...currentList, title: inputValue})
+			setCurrentList({...currentList, title: inputValue, date_updated: date})
 			input.placeholder = "Enter list name"
 			inputRef.current.value = ""
 			setShowTitleInput(false)
 		}
 	}
-	
+
 	return (
 		<Transition
         items={showTitleInput}

@@ -11,6 +11,7 @@ const ListInput = () => {
     const input = inputRef.current
     let inputValue = inputRef.current.value
     let list = currentList.list
+    let date = new Date().toISOString()
 
     if(!input){
       return
@@ -21,7 +22,7 @@ const ListInput = () => {
       input.value = null
     } else {
       list.push(inputValue)
-      setCurrentList({...currentList, list: list})
+      setCurrentList({...currentList, list: list, date_updated: date})
       input.placeholder = 'Enter new list item'
       input.value = null
     }
