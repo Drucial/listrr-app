@@ -5,6 +5,7 @@
 }
 
 :root {
+	--vh: 0;
 	--color-light: rgb(240, 240, 240);
 	--color-light400: rgb(228, 228, 228);
 	--color-dark: #434343;
@@ -63,6 +64,7 @@ button {
 
 #app {
 	height: 100vh;
+	height: calc(var(--vh, 1vh) * 100);
 	display: grid;
 	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr auto;
