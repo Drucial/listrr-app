@@ -424,15 +424,15 @@ main::-webkit-scrollbar {
 		position: relative;
 
 		.logo-container {
-			// display: none;
+			padding: .5rem;
 			width: 6rem;
-			color: var(--color-accent400);
+			color: var(--color-dark);
 
-			.logo {
-				// display: none;
+			#logo {
 				fill: var(--color-accent400);
 				color: var(--color-accent400);
-				width: 6rem;
+				width: 100%;
+				height: 2rem;
 			}
 		}
 
