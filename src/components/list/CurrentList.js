@@ -12,7 +12,7 @@ const CurrentList = () => {
         <ListTitle />
         <ListInput />
         <ListItems />
-        <ListFooter />
+        {/* <ListFooter /> */}
       </div>
     </main>
   )

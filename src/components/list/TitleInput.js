@@ -3,7 +3,7 @@ import UserContext from '../../services/user-context';
 import { Transition, animated } from "react-spring";
 
 const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
-	const { currentList, setCurrentList, currentUser } = useContext(UserContext)
+	const { currentUser, currentList, setCurrentList } = useContext(UserContext)
 	const inputRef = useRef()
 	// Needs Enter Key Listener
 
@@ -44,7 +44,7 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
         }}
         enter={{ 
           opacity: 1,
-          height: 52,
+          height: 75,
 					marginBottom: 16,
         }}
         leave={{ 
@@ -58,16 +58,18 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
         >
         {(styles, item) =>
           item && 
-          <animated.div  style={styles} className="input-container">
-						<input
-							ref={inputRef}
-							className="list-input"
-							id="newListTitle"
-							type="text"
-							name="list-tile"
-							placeholder="Enter list name"
-						/>
-						<button onClick={validateTitle}>Update</button>
+          <animated.div  style={styles} className="list-menu">
+						<div className="input-container">
+							<input
+								ref={inputRef}
+								className="list-input"
+								id="newListTitle"
+								type="text"
+								name="list-tile"
+								placeholder="Enter list name"
+							/>
+							<button onClick={validateTitle}>Update</button>
+						</div>
 					</animated.div>
         }
       </Transition>
