@@ -94,10 +94,14 @@ header {
 	align-items: center;
 
 	.logo-container {
-		fill: var(--color-dark);
+		color: var(--color-dark);
 		width: 10rem;
 		padding: 1rem;
 		display: flex;
+
+		.logo {
+			color: var(--color-dark);
+		}
 	}
 
 	nav {
@@ -421,7 +425,12 @@ main::-webkit-scrollbar {
 
 		.logo-container {
 			width: 6rem;
-			fill: var(--color-accent400);
+			color: var(--color-accent400);
+
+			.logo {
+				color: var(--color-accent400);
+				width: 100%;
+			}
 		}
 
 		nav {
