@@ -2,7 +2,7 @@ import React from 'react';
 import ListTitle from './ListTitle';
 import ListInput from './ListInput'
 import ListItems from './ListItems';
-import ListFooter from './ListFooter';
+// import ListFooter from './ListFooter';
 
 const CurrentList = () => {
   
