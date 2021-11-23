@@ -428,6 +428,8 @@ main::-webkit-scrollbar {
 			color: var(--color-accent400);
 
 			.logo {
+				display: none;
+				fill: var(--color-accent400);
 				color: var(--color-accent400);
 				width: 100%;
 			}

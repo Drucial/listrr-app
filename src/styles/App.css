@@ -483,6 +483,8 @@ main::-webkit-scrollbar {
     color: var(--color-accent400);
   }
   .app-header .logo-container .logo {
+    display: none;
+    fill: var(--color-accent400);
     color: var(--color-accent400);
     width: 100%;
   }
