@@ -479,14 +479,13 @@ main::-webkit-scrollbar {
     position: relative;
   }
   .app-header .logo-container {
-    display: none;
     width: 6rem;
     color: var(--color-accent400);
   }
   .app-header .logo-container .logo {
     fill: var(--color-accent400);
     color: var(--color-accent400);
-    width: 100%;
+    width: 6rem;
   }
   .app-header nav {
     position: absolute;
