@@ -45,7 +45,7 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
         enter={{ 
           opacity: 1,
           height: 75,
-					marginBottom: 16,
+					marginBottom: 0,
         }}
         leave={{ 
           opacity: 0,
@@ -59,11 +59,10 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
         {(styles, item) =>
           item && 
           <animated.div  style={styles} className="list-menu">
-						<div className="input-container">
+						<div className="input-container" id="newListTitle">
 							<input
 								ref={inputRef}
 								className="list-input"
-								id="newListTitle"
 								type="text"
 								name="list-tile"
 								placeholder="Enter list name"
