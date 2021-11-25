@@ -70,7 +70,6 @@ function App() {
       let lastList = lists.reduce((a, b) => (a.date_updated > b.date_updated ? a : b)) || lists[0]
       setCurrentList(lastList)
     }
-    console.log(currentUser)
   }, [lists, isAuthenticated])
 
   // Menu Functionality (toggle)
