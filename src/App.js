@@ -28,10 +28,13 @@ function App() {
   const [currentUser, setCurrentUser] = useState() 
 
   useEffect(() => {
-    if(!isAuthenticated) createNewUser()
+    if(isAuthenticated){
+      LoginDataService.loginValidation(user, currentUser, setCurrentUser)
+    } else if (!currentUser){
+      console.log('first user creation')
+      createNewUser()
+    }
 
-    LoginDataService.loginValidation(user, currentUser, setCurrentUser)
-    
   }, [isAuthenticated, user, currentUser, setCurrentUser])
   
   // Set Initial List State
