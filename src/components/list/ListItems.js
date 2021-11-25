@@ -4,7 +4,7 @@ import { Transition, animated } from 'react-spring'
 
 const ListItems = () => {
   const { currentList, setCurrentList } = useContext(UserContext)
-  const list = currentList.list
+  let list = currentList.list
 
   function handleClick(items) {
     let list = currentList.list
@@ -17,7 +17,6 @@ const ListItems = () => {
 
   return (
     <ul className="active-list">
-      {/* {currentList.list.map((items, index) => */}
       <Transition
         items={list}
         from={{ 

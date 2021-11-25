@@ -5,7 +5,7 @@ class LoginDataService {
   loginValidation(user, currentUser, setCurrentUser) {
     if(user){
       getUser(user.sub)
-    } else if(user.sub === currentUser.user_id || !user){
+    } else if(!user || user.sub === currentUser.user_id){
       return;
     }
 

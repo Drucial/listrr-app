@@ -1,37 +1,65 @@
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useEffect } from 'react'
 import UserContext from '../../services/user-context'
 
 const ListInput = () => {
   const { currentList, setCurrentList } = useContext(UserContext)
-  const inputRef = useRef()
+  const listInputRef = useRef()
 
-  // Needs Enter Key Listener
+  // Enter Keydown Handler for Input Field
+  useEffect(() => {
+    if(!listInputRef) return
+    let input = listInputRef.current
 
+    input.addEventListener('keydown', handleKeyDown)
+
+    return function cleanupListener() {
+      input.removeEventListener('keydown',handleKeyDown)
+    }
+  })
+    
+  function handleKeyDown(e) {
+    if (e.code === 'Enter') {
+      validateNewListItem()
+    }
+  }
+
+  // Input Validation
   function validateNewListItem() {
-    const input = inputRef.current
-    let inputValue = inputRef.current.value
-    let list = currentList.list
+    const input = listInputRef.current
+    let inputValue = listInputRef.current.value
+    let listArr = []
     let date = new Date().toISOString()
 
-    if(!input){
+    if(currentList.list.length > 0) {
+      for(let items of currentList.list){
+        listArr.push(items.toLowerCase())
+      }}
+
+    if(!listInputRef){
       return
     } else if(inputValue === '') {
-      return
-    } else if(currentList.list.includes(inputValue)) {
+
+      input.placeholder = "Please enter a new list item"
+
+    } else if(listArr.includes(inputValue.toLowerCase())) {
+
       input.placeholder = `Whoops! ${inputValue} is already on the list`
-      input.value = null
+      listInputRef.current.value = ""
+
     } else {
-      list.push(inputValue)
-      setCurrentList({...currentList, list: list, date_updated: date})
+
+      let item = inputValue
+      listArr.push(item)
+      setCurrentList({...currentList, list: listArr, date_updated: date})
       input.placeholder = 'Enter new list item'
-      input.value = null
+      listInputRef.current.value = ""
     }
   }
 
   return (
     <div className="input-container">
       <input
-        ref={inputRef}
+        ref={listInputRef}
         className="list-input"
         type="text"
         name="new-list-item"

@@ -11,37 +11,64 @@ function App() {
   const { user, isAuthenticated } = useAuth0();
 
   // Set Initial User State
-  const initialUserState = {
-    user_id: null,
-    email: '',
-    user_lists: [],
-    date_created: new Date().toISOString(),
-    date_updated: new Date().toISOString(),
+  const createNewUser = () => {
+    let date = new Date().toISOString()
+
+    const initialUserState = {
+      user_id: null,
+      email: '',
+      user_lists: [],
+      date_created: date,
+      date_updated: date,
+    }
+
+    setCurrentUser(initialUserState)
   }
   
-  const [currentUser, setCurrentUser] = useState(initialUserState) 
+  const [currentUser, setCurrentUser] = useState() 
 
   useEffect(() => {
-    if(!isAuthenticated) return
+    if(!isAuthenticated) createNewUser()
+
     LoginDataService.loginValidation(user, currentUser, setCurrentUser)
+    
   }, [isAuthenticated, user, currentUser, setCurrentUser])
   
   // Set Initial List State
-  const initialListState = {
-    title: 'New List',
-    list_id: idGen(),
-    shared: false,
-    shared_users: [],
-    list: [],
-    date_created: new Date().toISOString(),
-    date_updated: new Date().toISOString(),
+  function createNewList() {
+    let date = new Date().toISOString()
+    let key = Math.random().toString(36).slice(2)
+
+    let newList = {
+      title: 'New List',
+      list_id: key,
+      shared: false,
+      shared_users: [],
+      list: [],
+      date_created: date,
+      date_updated: date,
+    }
+
+    setCurrentList(newList)
   }
 
-  function idGen() {
-    return Math.random().toString(36).slice(2)
+  const [currentList, setCurrentList] = useState()
+  let lists
+  if (currentUser) {
+    lists = currentUser.user_lists
+  } else {
+    lists = []
   }
 
-  const [currentList, setCurrentList] = useState(initialListState)
+  useEffect(() => {
+    if(!isAuthenticated) createNewList()
+
+    if(lists && lists.length > 0){
+      let lastList = lists.reduce((a, b) => (a.date_updated > b.date_updated ? a : b)) || lists[0]
+      setCurrentList(lastList)
+    }
+    console.log(currentUser)
+  }, [lists, isAuthenticated])
 
   // Menu Functionality (toggle)
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,7 +77,6 @@ function App() {
     setMenuOpen: setMenuOpen
   }
 
-
   return (
     <>
     <UserContext.Provider value={{ 
@@ -58,11 +84,11 @@ function App() {
       setCurrentUser: setCurrentUser, 
       currentList: currentList, 
       setCurrentList: setCurrentList, 
-      initialListState: initialListState 
+      createNewList: createNewList
     }}>
       <Header menuState={menuState} />
       <Menu menuState={menuState} />
-      <CurrentList />
+      <CurrentList currentList={currentList}/>
     </UserContext.Provider>
     </>
   );

@@ -3,14 +3,10 @@ import UserContext from '../../services/user-context'
 import MenuToggle from "./MenuToggle"
 
 const Nav = ({ menuState }) => {
-	const { initialListState, setCurrentList } = useContext(UserContext)
+	const { createNewList } = useContext(UserContext)
 
 	function toggleMenu() {
 		menuState.menuOpen === true ? menuState.setMenuOpen(false) : menuState.setMenuOpen(true)
-	}
-
-	function createNewList() {
-		setCurrentList(initialListState)
 	}
 
 	return (

@@ -1,16 +1,34 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 import UserContext from '../../services/user-context';
 import { Transition, animated } from "react-spring";
 
 const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
 	const { currentUser, currentList, setCurrentList } = useContext(UserContext)
-	const inputRef = useRef()
-	// Needs Enter Key Listener
+	const titleInputRef = useRef()
+	
+	// Enter Keydown Handler for Input Field
+	useEffect(() => {
+		if(!titleInputRef.current) return
+		let input = titleInputRef.current
 
+    input.addEventListener('keydown', handleKeyDown)
+
+    return function cleanupListener() {
+      input.removeEventListener('keydown', handleKeyDown)
+    }
+  })
+
+	function handleKeyDown(e) {
+		if (e.code === 'Enter') {
+			validateTitle()
+		}
+	}
+
+	// Input Validation
 	function validateTitle() {
-		const input = inputRef.current
-		let inputValue = inputRef.current.value
-		let titleArr =[]
+		const input = titleInputRef.current
+		let inputValue = titleInputRef.current.value
+		let titleArr = []
 		let date = new Date().toISOString()
 
 		if(currentUser.user_lists.length > 0) {
@@ -18,18 +36,26 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
 			titleArr.push(list.title.toLowerCase())
 		}}
 
-		if(!inputRef){
+		if(!titleInputRef){
 			return;
 		} else if(inputValue === "") {
+
 			input.placeholder = "Please enter a new title"
+
 		} else if(titleArr.includes(inputValue.toLowerCase())){
+
 			input.placeholder = "You already have a list with that title!"
-			inputRef.current.value = ""
+			titleInputRef.current.value = ""
+
 		} else {
-			setCurrentList({...currentList, title: inputValue, date_updated: date})
+
+			let title = inputValue
+			setCurrentList({...currentList, title: title, date_updated: date, })
+
 			input.placeholder = "Enter list name"
-			inputRef.current.value = ""
+			titleInputRef.current.value = ""
 			setShowTitleInput(false)
+
 		}
 	}
 
@@ -61,7 +87,7 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
           <animated.div  style={styles} className="list-menu">
 						<div className="input-container" id="newListTitle">
 							<input
-								ref={inputRef}
+								ref={titleInputRef}
 								className="list-input"
 								type="text"
 								name="list-tile"
