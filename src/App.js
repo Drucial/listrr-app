@@ -8,7 +8,7 @@ import CurrentList from './components/list/CurrentList'
 import './styles/App.css';
 
 function App() {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   // Set Initial User State
   const [currentUser, setCurrentUser] = useState() 
@@ -55,7 +55,10 @@ function App() {
 
   useEffect(() => {
     // Handle first list on log in
+    if(isLoading) return;
+
     if(isAuthenticated) {
+      
       if(lists && lists.length > 0){
         setCurrentList(lastList)
       } else {
@@ -65,7 +68,7 @@ function App() {
       createNewList()
     }
 
-  }, [isAuthenticated, lists, lastList])
+  }, [isLoading, isAuthenticated, lists, lastList])
 
   // Menu Functionality (toggle)
   const [menuOpen, setMenuOpen] = useState(false);

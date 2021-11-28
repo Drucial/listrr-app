@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 import { Transition } from "react-spring";
 import ListTitle from './ListTitle';
 import ListInput from './ListInput'
@@ -6,6 +7,8 @@ import ListItems from './ListItems';
 import Modal from './Modal';
 
 const CurrentList = ({ currentList }) => {
+  const { isLoading } = useAuth0();
+
   const [showModal, setShowModal] = useState(false)
   const [modalMessage, setModalMessage] = useState()
 
@@ -14,7 +17,7 @@ const CurrentList = ({ currentList }) => {
   return (
     <main>
       <Transition
-        items={!currentList}
+        items={isLoading}
         from={{ 
           opacity: 0
         }}
@@ -24,7 +27,7 @@ const CurrentList = ({ currentList }) => {
         leave={{ 
           opacity: 0
         }}
-        reverse={!currentList}
+        reverse={isLoading}
         delay={200}
         >
         {(styles, item) =>
