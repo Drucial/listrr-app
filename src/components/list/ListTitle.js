@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useAuth0 } from "@auth0/auth0-react";
 import UserContext from '../../services/user-context'
 import UserDataService from '../../services/user'
 import UpdateDataService from '../../services/save'
@@ -6,14 +7,19 @@ import TitleInput from './TitleInput'
 
 
 const ListTitle = ({ setShowModal, setModalMessage }) => {
+  const { loginWithRedirect } = useAuth0();
+
   const { currentUser, setCurrentUser, currentList, createNewList } = useContext(UserContext)
   const [showTitleInput, setShowTitleInput, ] = useState(false)
   let lists
+  let props
+
   const message = (props) => {
     return(
       <>
         <h3>{props.h3}</h3>
         <p>{props.p}</p>
+        {props.input}
         <div className="modal-response">
           <button onClick={props.btn1f}>{props.btn1}</button>
           <button onClick={props.btn2f}>{props.btn2}</button>
@@ -32,19 +38,48 @@ const ListTitle = ({ setShowModal, setModalMessage }) => {
 	}
 
   function shareList() {
-    console.log('share this list')
+    if(!currentUser) {
+      props = {
+        h3: 'You must be logged in to share a list',
+        p: "Would you like to create sign up or log in?",
+        btn1: 'Sign Up',
+        btn1f: () => loginWithRedirect(),
+        btn2: 'Log In',
+        btn2f: () => loginWithRedirect(),
+      }
+    } else {
+      props = {
+        h3: 'Share this list?',
+        p: "Enter the email of the person you want to share this list with",
+        input: <div className="input-container" style={{ marginTop: '1.5rem', width: '100%'}}>
+                  <input
+                    style={{ margin: 0, borderRadius: '3px', }}
+                    className="list-input"
+                    type="text"
+                    name="share-email-input"
+                    placeholder="Email"
+                  />
+                </div>,
+        btn1: 'Share',
+        btn1f: () => setShowModal(false),
+        btn2: 'Back',
+        btn2f: () => setShowModal(false),
+      }
+    }
+    // console.log('share this list')
+    setShowModal(true)
+    setModalMessage(message(props))
   }
 
   function deletePrompt() {
-    let props
 
     if(!currentUser) {
       props = {
         h3: 'You must be logged in to delete a list',
-        p: "Would you like to create a new list or login?",
+        p: "Would you like to create a new list or log in?",
         btn1: 'Create',
         btn1f: () => {createNewList(); setShowModal(false)},
-        btn2: 'Login',
+        btn2: 'Log in',
         btn2f: () => setShowModal(false),
       }
     } else if(currentUser.user_lists.includes(currentList)) {

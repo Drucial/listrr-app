@@ -302,9 +302,11 @@ main {
 	h3 {
 		color: var(--color-light);
 		line-height: 1.5;
+		text-align: center;
 	}
 	
 	p {
+		text-align: center;
 		padding-bottom: .5rem;
 		border-bottom: 2px solid var(--color-accent);
 	}
@@ -313,6 +315,31 @@ main {
 		margin-top: .5rem;
 		display: flex;
 		gap: 1rem;
+	}
+}
+
+.input-container {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	margin-bottom: 1rem;
+
+	label {
+		display: none;
+	}
+
+	.list-input {
+		all: unset;
+		color: var(--color-dark);
+		padding: 0.5rem;
+		margin-right: -3px;
+		background: var(--color-light);
+		border-radius: 3px 0px 0px 3px;
+		border-bottom: 2px solid var(--color-accent400);
+
+		&:active,
+		&:focus {
+			background: var(--color-light400);
+		}
 	}
 }
 
@@ -382,31 +409,6 @@ main {
 
 		label {
 			display: none;
-		}
-	}
-
-	.input-container {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		margin-bottom: 1rem;
-
-		label {
-			display: none;
-		}
-
-		.list-input {
-			all: unset;
-			color: var(--color-dark);
-			padding: 0.5rem;
-			margin-right: -3px;
-			background: var(--color-light);
-			border-radius: 3px 0px 0px 3px;
-			border-bottom: 2px solid var(--color-accent400);
-
-			&:active,
-			&:focus {
-				background: var(--color-light400);
-			}
 		}
 	}
 

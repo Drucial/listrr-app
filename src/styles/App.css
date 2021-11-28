@@ -350,9 +350,11 @@ main {
 .modal h3 {
   color: var(--color-light);
   line-height: 1.5;
+  text-align: center;
 }
 
 .modal p {
+  text-align: center;
   padding-bottom: .5rem;
   border-bottom: 2px solid var(--color-accent);
 }
@@ -363,6 +365,32 @@ main {
   display: -ms-flexbox;
   display: flex;
   gap: 1rem;
+}
+
+.input-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr auto;
+      grid-template-columns: 1fr auto;
+  margin-bottom: 1rem;
+}
+
+.input-container label {
+  display: none;
+}
+
+.input-container .list-input {
+  all: unset;
+  color: var(--color-dark);
+  padding: 0.5rem;
+  margin-right: -3px;
+  background: var(--color-light);
+  border-radius: 3px 0px 0px 3px;
+  border-bottom: 2px solid var(--color-accent400);
+}
+
+.input-container .list-input:active, .input-container .list-input:focus {
+  background: var(--color-light400);
 }
 
 .current-list-container {
@@ -450,32 +478,6 @@ main {
 
 .current-list-container .list-header label {
   display: none;
-}
-
-.current-list-container .input-container {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr auto;
-      grid-template-columns: 1fr auto;
-  margin-bottom: 1rem;
-}
-
-.current-list-container .input-container label {
-  display: none;
-}
-
-.current-list-container .input-container .list-input {
-  all: unset;
-  color: var(--color-dark);
-  padding: 0.5rem;
-  margin-right: -3px;
-  background: var(--color-light);
-  border-radius: 3px 0px 0px 3px;
-  border-bottom: 2px solid var(--color-accent400);
-}
-
-.current-list-container .input-container .list-input:active, .current-list-container .input-container .list-input:focus {
-  background: var(--color-light400);
 }
 
 .current-list-container .active-list {

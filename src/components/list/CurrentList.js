@@ -9,7 +9,7 @@ const CurrentList = ({ currentList }) => {
   const [showModal, setShowModal] = useState(false)
   const [modalMessage, setModalMessage] = useState()
 
-  let loading = <h3>Loading...</h3>
+  let loading = <><h3>Loading...</h3><p>Just grabbing your lists!</p></>
 
   return (
     <main>
