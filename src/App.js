@@ -11,66 +11,61 @@ function App() {
   const { user, isAuthenticated } = useAuth0();
 
   // Set Initial User State
-  const createNewUser = () => {
-    let date = new Date().toISOString()
-
-    const initialUserState = {
-      user_id: null,
-      email: '',
-      user_lists: [],
-      date_created: date,
-      date_updated: date,
-    }
-
-    setCurrentUser(initialUserState)
-  }
-  
   const [currentUser, setCurrentUser] = useState() 
 
   useEffect(() => {
     if(isAuthenticated){
-      LoginDataService.loginValidation(user, currentUser, setCurrentUser)
-    } else if (!currentUser){
-      console.log('first user creation')
-      createNewUser()
+      LoginDataService.loginValidation(user, setCurrentUser)
     }
-
-  }, [isAuthenticated, user, currentUser, setCurrentUser])
+  }, [isAuthenticated, user])
   
-  // Set Initial List State
-  function createNewList() {
-    let date = new Date().toISOString()
-    let key = Math.random().toString(36).slice(2)
+//   // Set Initial List State / Create New List
+  const createNewList = () => {
+      let date = new Date().toISOString()
+      let key = Math.random().toString(36).slice(2)
 
-    let newList = {
-      title: 'New List',
-      list_id: key,
-      shared: false,
-      shared_users: [],
-      list: [],
-      date_created: date,
-      date_updated: date,
+      let newList = {
+        title: 'New List',
+        list_id: key,
+        shared: false,
+        shared_users: [],
+        list: [],
+        date_created: date,
+        date_updated: date,
+      }
+
+      setCurrentList(newList)
     }
-
-    setCurrentList(newList)
-  }
 
   const [currentList, setCurrentList] = useState()
+
+  // Sync Lists and Most Recent List
   let lists
-  if (currentUser) {
+  let lastList
+    
+  if(currentUser) {
     lists = currentUser.user_lists
-  } else {
-    lists = []
+
+    if(lists.length === 1){
+      lastList = currentUser.user_lists[0]
+    } else if(lists.length > 1){
+      lastList = lists.reduce((a, b) => (a.date_updated > b.date_updated ? a : b))
+    }
   }
 
   useEffect(() => {
-    if(!isAuthenticated) createNewList()
-
-    if(lists && lists.length > 0){
-      let lastList = lists.reduce((a, b) => (a.date_updated > b.date_updated ? a : b)) || lists[0]
-      setCurrentList(lastList)
+    // Handle first list on log in
+    if(isAuthenticated) {
+      if(lists && lists.length > 0){
+        setCurrentList(lastList)
+      } else {
+        createNewList()
+      }
+    } else {
+      createNewList()
     }
-  }, [lists, isAuthenticated])
+
+  }, [isAuthenticated, lists, lastList])
 
   // Menu Functionality (toggle)
   const [menuOpen, setMenuOpen] = useState(false);

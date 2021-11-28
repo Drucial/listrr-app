@@ -8,14 +8,26 @@ import TitleInput from './TitleInput'
 const ListTitle = ({ setShowModal, setModalMessage }) => {
   const { currentUser, setCurrentUser, currentList, createNewList } = useContext(UserContext)
   const [showTitleInput, setShowTitleInput, ] = useState(false)
-  let lists = currentUser.user_lists;
-  let message
+  let lists
+  const message = (props) => {
+    return(
+      <>
+        <h3>{props.h3}</h3>
+        <p>{props.p}</p>
+        <div className="modal-response">
+          <button onClick={props.btn1f}>{props.btn1}</button>
+          <button onClick={props.btn2f}>{props.btn2}</button>
+        </div>
+      </>
+    )
+  }
     
   function editTitle() {
     setShowTitleInput(!showTitleInput)
   }
 
   function saveList() {
+    if (!currentUser) return;
 		UpdateDataService.updateLists(currentUser, currentList, setCurrentUser)
 	}
 
@@ -24,19 +36,30 @@ const ListTitle = ({ setShowModal, setModalMessage }) => {
   }
 
   function deletePrompt() {
-    if(lists.includes(currentList))
-    
-    message = 
-      <>
-        <h3>Are you sure you want to delete this list?</h3>
-        <div className="modal-response">
-          <button onClick={deleteList}>Yes</button>
-          <button onClick={() => setShowModal(false)}>No</button>
-        </div>
-      </>
+    let props
+
+    if(!currentUser) {
+      props = {
+        h3: 'You must be logged in to delete a list',
+        p: "Would you like to create a new list or login?",
+        btn1: 'Create',
+        btn1f: () => {createNewList(); setShowModal(false)},
+        btn2: 'Login',
+        btn2f: () => setShowModal(false),
+      }
+    } else if(currentUser.user_lists.includes(currentList)) {
+      props = {
+        h3: 'Are you sure you want to delete this list?',
+        p: "Please confirm",
+        btn1: 'Yes',
+        btn1f: deleteList,
+        btn2: 'No',
+        btn2f: () => setShowModal(false),
+      }
+    }
 
     setShowModal(true)
-    setModalMessage(message)
+    setModalMessage(message(props))
   }
 
   function deleteList() {

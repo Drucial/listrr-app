@@ -349,8 +349,12 @@ main {
 
 .modal h3 {
   color: var(--color-light);
-  border-bottom: 2px solid var(--color-accent);
+  line-height: 1.5;
+}
+
+.modal p {
   padding-bottom: .5rem;
+  border-bottom: 2px solid var(--color-accent);
 }
 
 .modal .modal-response {
@@ -418,6 +422,7 @@ main {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  max-width: 300px;
 }
 
 .current-list-container .list-header .list-icon {

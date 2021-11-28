@@ -29,34 +29,31 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
 		const input = titleInputRef.current
 		let inputValue = titleInputRef.current.value
 		let titleArr = []
-		let date = new Date().toISOString()
+		
 
-		if(currentUser.user_lists.length > 0) {
+		if(currentUser && currentUser.user_lists.length > 0) {
 		for(let list of currentUser.user_lists){
 			titleArr.push(list.title.toLowerCase())
 		}}
 
-		if(!titleInputRef){
-			return;
-		} else if(inputValue === "") {
-
+		if(inputValue === "") {
 			input.placeholder = "Please enter a new title"
-
 		} else if(titleArr.includes(inputValue.toLowerCase())){
-
 			input.placeholder = "You already have a list with that title!"
 			titleInputRef.current.value = ""
-
 		} else {
-
-			let title = inputValue
-			setCurrentList({...currentList, title: title, date_updated: date, })
-
-			input.placeholder = "Enter list name"
-			titleInputRef.current.value = ""
-			setShowTitleInput(false)
-
+			setTitle()
 		}
+	}
+
+	const setTitle = () => {
+		let date = new Date().toISOString()
+		let title = titleInputRef.current.value
+		setCurrentList({...currentList, title: title, date_updated: date, })
+
+		titleInputRef.current.placeholder = "Enter list name"
+		titleInputRef.current.value = ""
+		setShowTitleInput(false)
 	}
 
 	return (

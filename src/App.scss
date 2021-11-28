@@ -301,8 +301,12 @@ main {
 
 	h3 {
 		color: var(--color-light);
-		border-bottom: 2px solid var(--color-accent);
+		line-height: 1.5;
+	}
+	
+	p {
 		padding-bottom: .5rem;
+		border-bottom: 2px solid var(--color-accent);
 	}
 
 	.modal-response {
@@ -351,6 +355,7 @@ main {
 			display: flex;
 			gap: 1rem;
 			justify-content: space-between;
+			max-width: 300px;
 		}
 
 		.list-icon {
