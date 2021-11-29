@@ -26,7 +26,7 @@ const ListTitle = ({ setShowModal, setModalMessage }) => {
         {props.response ? 
         <div className="modal-response">
           <button onClick={props.btn1f}>{props.btn1}</button>
-          <button onClick={props.btn2f}>{props.btn2}</button>
+          <button className="btn-outline" onClick={props.btn2f}>{props.btn2}</button>
         </div>
         : <></>
       }

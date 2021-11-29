@@ -8,13 +8,13 @@
 :root {
   --vh: 0;
   --color-light: rgb(240, 240, 240);
-  --color-light400: rgb(210, 210, 210);
+  --color-light400: rgb(223, 223, 223);
   --color-dark: #434343;
   --color-dark400: #2b2b2b;
   --color-dark800: #1d1d1d;
   --color-accent: hsl(285, 72%, 50%);
   --color-accent400: hsl(263, 67%, 42%);
-  --color-accent-light: hsl(327, 77%, 56%);
+  --color-accent-light: hsl(295, 93%, 53%);
 }
 
 html {
@@ -52,10 +52,24 @@ button {
   transition: box-shadow 0.25s ease-in-out, color 0.25s ease-in-out, -webkit-box-shadow 0.25s ease-in-out;
 }
 
-button:hover {
-  color: var(--color-light);
-  -webkit-box-shadow: inset -7px -7px 20px var(--color-accent400), inset 0px 0px 25px var(--color-accent-light);
-          box-shadow: inset -7px -7px 20px var(--color-accent400), inset 0px 0px 25px var(--color-accent-light);
+button:hover, button:focus {
+  -webkit-box-shadow: inset -7px -7px 15px var(--color-accent), inset 0px 0px 25px var(--color-accent-light);
+          box-shadow: inset -7px -7px 15px var(--color-accent), inset 0px 0px 25px var(--color-accent-light);
+}
+
+.btn-outline {
+  background: none;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  -webkit-transition: color .25s ease-in-out, border-color .25s ease-in-out;
+  transition: color .25s ease-in-out, border-color .25s ease-in-out;
+}
+
+.btn-outline:hover, .btn-outline:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: var(--color-accent-light);
+  border-color: var(--color-accent-light);
 }
 
 #app {
@@ -68,9 +82,9 @@ button:hover {
   -ms-grid-columns: 1fr auto;
       grid-template-columns: 1fr auto;
       grid-template-areas: "nav menu" "main menu";
-  background: var(--color-accent);
-  background: -webkit-gradient(linear, left top, right bottom, from(var(--color-dark)), to(var(--color-dark800)));
-  background: linear-gradient(to bottom right, var(--color-dark), var(--color-dark800));
+  background: var(--color-light);
+  background: -webkit-gradient(linear, left top, right bottom, from(var(--color-light)), to(var(--color-light400)));
+  background: linear-gradient(to bottom right, var(--color-light), var(--color-light400));
   overflow: hidden;
 }
 
@@ -99,7 +113,7 @@ header .logo-container {
 }
 
 header .logo-container #logo {
-  fill: var(--color-light);
+  fill: var(--color-dark400);
 }
 
 header nav ul {
@@ -108,7 +122,7 @@ header nav ul {
   display: -ms-flexbox;
   display: flex;
   gap: 1rem;
-  color: var(--color-light);
+  color: var(--color-dark);
   padding: 0 1rem;
 }
 
@@ -131,7 +145,7 @@ header nav li {
 header nav #menu {
   width: 80%;
   height: 3px;
-  background: var(--color-light);
+  background: var(--color-dark);
   position: relative;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
@@ -144,7 +158,7 @@ header nav #menu:before, header nav #menu:after {
   height: 100%;
   left: 0;
   top: 0;
-  background: var(--color-light);
+  background: var(--color-dark);
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
@@ -162,7 +176,7 @@ header nav #menu:after {
 header nav #menu.open {
   height: 90%;
   width: 90%;
-  border: 3px solid var(--color-light);
+  border: 3px solid var(--color-dark);
   border-radius: 100%;
   background: none;
 }
@@ -194,8 +208,10 @@ header nav #menu.open:after {
       align-self: end;
   height: 100%;
   padding: 1rem 0;
-  background: var(--color-light);
   color: var(--color-light);
+  background: var(--color-dark400);
+  background: -webkit-gradient(linear, left top, right bottom, from(var(--color-dark400)), to(var(--color-dark800)));
+  background: linear-gradient(to bottom right, var(--color-dark400), var(--color-dark800));
   -webkit-box-shadow: inset 2px 2px 15px rgba(0, 0, 0, 0.2), inset -2px -2px 15px rgba(0, 0, 0, 0.2);
           box-shadow: inset 2px 2px 15px rgba(0, 0, 0, 0.2), inset -2px -2px 15px rgba(0, 0, 0, 0.2);
 }
@@ -211,13 +227,13 @@ header nav #menu.open:after {
   gap: 1rem;
   place-items: center;
   white-space: nowrap;
-  color: var(--color-dark400);
+  color: var(--color-light);
 }
 
 .app-menu header h2 {
   font-family: "Lobster", cursive;
   font-size: 2rem;
-  color: var(--color-accent);
+  color: var(--color-light);
 }
 
 .app-menu header .user-profile {
@@ -258,6 +274,7 @@ header nav #menu.open:after {
 }
 
 .app-menu header .user-profile .profile-details h3 {
+  color: var(--color-light);
   font-weight: normal;
   font-size: 1rem;
 }
@@ -331,7 +348,6 @@ main {
   width: 100%;
   height: 100%;
   z-index: 99;
-  background: rgba(235, 235, 235, 0.5);
   -webkit-backdrop-filter: blur(0.2rem);
           backdrop-filter: blur(0.2rem);
 }
@@ -417,8 +433,8 @@ main {
   padding: 2rem;
   border-radius: 5px;
   background: var(--color-light);
-  -webkit-box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.5);
-          box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.3);
   background: -webkit-gradient(linear, left top, left bottom, from(var(--color-light)), to(var(--color-light400)));
   background: linear-gradient(to bottom, var(--color-light), var(--color-light400));
 }
@@ -452,6 +468,11 @@ main {
   font-family: "Lobster", cursive;
   font-size: 2rem;
   white-space: nowrap;
+  color: var(--color-accent400);
+  background: -webkit-gradient(linear, left top, right bottom, from(var(--color-accent)), to(var(--color-accent400)));
+  background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .current-list-container .list-header .list-icons {
@@ -546,7 +567,7 @@ main {
     -ms-grid-columns: 1fr auto;
         grid-template-columns: 1fr auto;
         grid-template-areas: "main menu" "nav nav";
-    background: var(--color-dark);
+    background: var(--color-dark400);
   }
   .app-header {
     -webkit-box-pack: center;
@@ -559,6 +580,7 @@ main {
     -webkit-box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
             box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
     position: relative;
+    z-index: 5;
   }
   .app-header .logo-container {
     padding: .5rem;
@@ -600,7 +622,7 @@ main {
     width: 100vw;
     -webkit-box-shadow: none;
             box-shadow: none;
-    background: var(--color-dark);
+    background: var(--color-dark400);
   }
   .app-menu h3 {
     color: var(--color-light);
@@ -614,6 +636,7 @@ main {
     min-height: 100%;
     margin: 0;
     background: var(--color-light);
+    border-radius: 0;
   }
   .current-list-container .list-header {
     background: var(--color-dark400);
@@ -628,11 +651,17 @@ main {
     margin: 0 1rem .5rem 1rem;
   }
   .current-list-container .list-header #listTitle {
+    line-height: 1.4;
+    margin-top: -5px;
     color: var(--color-light);
     letter-spacing: -1px;
+    background: -webkit-gradient(linear, left top, right bottom, from(var(--color-light)), to(var(--color-light400)));
+    background: linear-gradient(to bottom right, var(--color-light), var(--color-light400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .current-list-container .list-header .list-icon {
-    width: 35px;
+    width: auto;
     height: 35px;
     opacity: 0.3;
     cursor: pointer;

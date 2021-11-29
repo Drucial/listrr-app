@@ -17,9 +17,10 @@ const UserHeader = () => {
           <img src={currentUser.picture} alt={currentUser.nickname || currentUser.name} />
           <div className="profile-details">
             <h3 id="userName">{currentUser.nickname || currentUser.name}</h3>
-            <button onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>
+            <button className="btn-outline"onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>
           </div>
         </div>
+        <h2>Saved Lists</h2>
       </header>
     )
   } else {
