@@ -3,6 +3,7 @@ import UserDataService from "./user";
 class UpdateDataService {
 
   updateLists(currentUser, currentList, setCurrentUser) {
+    // Check for and make array of existing lists
     let lists = currentUser.user_lists
     let listIds = []
 
@@ -16,6 +17,7 @@ class UpdateDataService {
       createNewList()
     }
 
+    // Update an existing list
     function updateExistingList() {
       
       let index = listIds.indexOf(currentList.list_id)
@@ -33,6 +35,7 @@ class UpdateDataService {
           });
     }
 
+    // Save a new list
     function createNewList() {
       
       lists.push(currentList)

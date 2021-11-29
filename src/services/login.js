@@ -1,18 +1,28 @@
 import UserDataService from "./user";
+import SharedDataService from "./sharedLists"
 
 class LoginDataService {
 
-  loginValidation(user, setCurrentUser) {
+  loginValidation(user, setCurrentUser, setSharedLists) {
     if(!user) return;
 
     UserDataService.get(user.sub)
+      .then(response => {
+        handleUserLogin(response.data)
+      })
+      .catch(e => {
+        console.log(e)
+      })
 
-    .then(response => {
-      handleUserLogin(response.data)
-    })
-    .catch(e => {
-      console.log(e)
-    })
+
+    SharedDataService.getLists(user.sub)
+      .then(response => {
+        // console.log(response.data)
+        setSharedLists(response.data)
+      })
+      .catch(e => {
+        console.log(e)
+      })
 
 
     const handleUserLogin = (data) => {

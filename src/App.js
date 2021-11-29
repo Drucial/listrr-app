@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     if(isAuthenticated){
-      LoginDataService.loginValidation(user, setCurrentUser)
+      LoginDataService.loginValidation(user, setCurrentUser, setSharedLists)
     }
   }, [isAuthenticated, user])
   
@@ -38,13 +38,14 @@ function App() {
     }
 
   const [currentList, setCurrentList] = useState()
+  const [sharedLists, setSharedLists] = useState()
 
   // Sync Lists and Most Recent List
   let lists
   let lastList
     
   if(currentUser) {
-    lists = currentUser.user_lists
+      lists = currentUser.user_lists
 
     if(lists.length === 1){
       lastList = currentUser.user_lists[0]
@@ -84,7 +85,9 @@ function App() {
       setCurrentUser: setCurrentUser, 
       currentList: currentList, 
       setCurrentList: setCurrentList, 
-      createNewList: createNewList
+      createNewList: createNewList,
+      sharedLists: sharedLists,
+      setSharedLists: setSharedLists
     }}>
       <Header menuState={menuState} />
       <Menu menuState={menuState} />

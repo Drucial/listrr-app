@@ -10,6 +10,7 @@
 	--color-light400: rgb(210, 210, 210);
 	--color-dark: #434343;
 	--color-dark400: #2b2b2b;
+	--color-dark800: #1d1d1d;
 	--color-accent: hsl(285, 72%, 50%);
 	--color-accent400: hsl(263, 67%, 42%);
 	--color-accent-light: hsl(327, 77%, 56%);
@@ -70,9 +71,9 @@ button {
 		"main menu";
 	background: var(--color-accent);
 	background: linear-gradient(
-		to bottom,
-		var(--color-light),
-		var(--color-light400)
+		to bottom right,
+		var(--color-dark),
+		var(--color-dark800)
 	);
 	overflow: hidden;
 }
@@ -92,7 +93,7 @@ header {
 		display: flex;
 
 		#logo {
-			fill: var(--color-dark400);
+			fill: var(--color-light);
 		}
 	}
 
@@ -101,7 +102,7 @@ header {
 			list-style: none;
 			display: flex;
 			gap: 1rem;
-			color: var(--color-dark);
+			color: var(--color-light);
 			padding: 0 1rem;
 		}
 
@@ -118,7 +119,7 @@ header {
 		#menu {
 			width: 80%;
 			height: 3px;
-			background: var(--color-dark);
+			background: var(--color-light);
 			position: relative;
 			transition: all 0.3s ease;
 
@@ -130,7 +131,7 @@ header {
 				height: 100%;
 				left: 0;
 				top: 0;
-				background: var(--color-dark);
+				background: var(--color-light);
 				transition: all 0.3s ease;
 			}
 
@@ -146,7 +147,7 @@ header {
 		#menu.open {
 			height: 90%;
 			width: 90%;
-			border: 3px solid var(--color-dark);
+			border: 3px solid var(--color-light);
 			border-radius: 100%;
 			background: none;
 
@@ -175,7 +176,7 @@ header {
 	height: 100%;
 	// min-width: 300px;
 	padding: 1rem 0;
-	background: var(--color-dark);
+	background: var(--color-light);
 	color: var(--color-light);
 	box-shadow: 
 		inset 2px 2px 15px rgba(0, 0, 0, 0.2),
@@ -187,7 +188,7 @@ header {
 		gap: 1rem;
 		place-items: center;
 		white-space: nowrap;
-		color: var(--color-light);
+		color: var(--color-dark400);
 
 		h2 {
 			font-family: "Lobster", cursive;
@@ -198,7 +199,7 @@ header {
 		.user-profile {
 			display: flex;
 			align-items: center;
-			gap: 0.5rem;
+			gap: 1rem;
 
 			.avatar-container {
 				width: 90px;
@@ -215,10 +216,10 @@ header {
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				gap: 0.2rem;
+				gap: .5rem;
 
 				h3 {
-					color: var(--color-light);
+					// color: var(--color-light);
 					font-weight: normal;
 					font-size: 1rem;
 				}
@@ -246,11 +247,20 @@ header {
 				var(--color-accent),
 				var(--color-accent400)
 			);
+			position: relative;
 			transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 
 			&:hover {
 				background: var(--color-light);
 				color: var(--color-accent400);
+			}
+
+			span {
+				position: absolute;
+				right: 1rem;
+				top: 50%;
+				transform: translate(0, -40%);
+				opacity: .3;
 			}
 		}
 	}
@@ -353,7 +363,7 @@ main {
 	padding: 2rem;
 	border-radius: 5px;
 	background: var(--color-light);
-	box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 5px 30px rgba(0, 0, 0, .5);
 	background: linear-gradient(
 		to bottom,
 		var(--color-light),
@@ -366,10 +376,11 @@ main {
 
 		.title-container {
 			display: flex;
-			// flex-wrap: wrap;
+			flex-wrap: wrap;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 1rem;
+			padding-bottom: 1rem;
+			// border: 1px solid white;
 		}
 
 		#listTitle {
@@ -382,7 +393,7 @@ main {
 			display: flex;
 			gap: 1rem;
 			justify-content: space-between;
-			max-width: 300px;
+			// border: 1px solid white;
 		}
 
 		.list-icon {
@@ -476,12 +487,15 @@ main {
 		grid-template-areas:
 			"main menu"
 			"nav nav";
+
+		background: var(--color-dark)
 	}
 
 	.app-header {
 		justify-content: center;
 		align-items: center;
 		background: var(--color-dark400);
+		box-shadow: 0px 0px 7px rgba(0,0,0,.4);
 		position: relative;
 
 		.logo-container {
@@ -524,6 +538,12 @@ main {
 
 	.app-menu {
 		width: 100vw;
+		box-shadow: none;
+		background: var(--color-dark);
+
+		h3 {
+			color: var(--color-light);
+		}
 	}
 
 	main {
@@ -535,29 +555,32 @@ main {
 		padding: 0;
 		min-height: 100%;
 		margin: 0;
+		background: var(--color-light);
 
 		.list-header {
 			background: var(--color-dark400);
 			color: var(--color-light);
 
 			.title-container {
+				padding: .5rem 1rem 1rem 1rem;
+				gap: .5rem;
 				margin-bottom: 0;
 			}
 
 			#newListTitle{
-				margin: .5rem 1rem;
+				margin: 0 1rem .5rem 1rem;
 			}
 
 			#listTitle{
-				padding: .1rem 1rem .5rem 1rem;
+				// padding: .1rem 1rem .5rem 1rem;
 				color: var(--color-light);
 				letter-spacing: -1px;
 			}
 
 			.list-icons {
-				width: 100%;
-				gap: 0;
-				margin-right: 1rem;
+				// max-width: 300px;
+				// gap: 1rem;
+				// margin: 0 1rem;
 			}
 
 			.list-icon {
