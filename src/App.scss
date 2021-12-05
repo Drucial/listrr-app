@@ -187,7 +187,7 @@ header {
 .app-menu {
 	grid-area: menu;
 	align-self: end;
-	height: 100%;
+	min-height: 100%;
 	// min-width: 300px;
 	padding: 1rem 0;
 	color: var(--color-light);
@@ -249,7 +249,9 @@ header {
 	.saved-lists {
 		list-style: none;
 		padding: 1rem;
+		// height: 100%;
 		min-width: 300px;
+		// overflow: scroll;
 
 		li {
 			color: var(--color-Light);
@@ -610,6 +612,7 @@ main {
 					var(--color-light),
 					var(--color-light400)
 				);
+				background-clip: text;
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 			}

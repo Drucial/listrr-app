@@ -1,75 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import UserContext from './services/user-context.js'
 import LoginDataService from "./services/login";
+import ListsDataService from "./services/lists"
 import Header from './components/header/Header';
 import Menu from './components/menu/Menu';
 import CurrentList from './components/list/CurrentList'
 import './styles/App.css';
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  // Correct viewport height on mobile
+  useLayoutEffect(() => {
+    const setMobileWindowHeight = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
 
-  // Set Initial User State
+    setMobileWindowHeight()
+    window.addEventListener('resize', setMobileWindowHeight);
+
+    return function cleanupListener() {
+      window.removeEventListener('resize', setMobileWindowHeight)
+    }
+  })
+
+  // Set Initial User & List State
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useState() 
+  const [userLists, setUserLists] = useState()
+  const [currentList, setCurrentList] = useState()
 
   useEffect(() => {
+    // Get user from Server at login
     if(isAuthenticated){
-      LoginDataService.loginValidation(user, setCurrentUser, setSharedLists)
+      LoginDataService.loginValidation(user, setCurrentUser)
     }
   }, [isAuthenticated, user])
-  
-//   // Set Initial List State / Create New List
-  const createNewList = () => {
-      let date = new Date().toISOString()
-      let key = Math.random().toString(36).slice(2)
-
-      let newList = {
-        title: 'New List',
-        list_id: key,
-        shared: false,
-        shared_users: [],
-        list: [],
-        date_created: date,
-        date_updated: date,
-      }
-
-      setCurrentList(newList)
-    }
-
-  const [currentList, setCurrentList] = useState()
-  const [sharedLists, setSharedLists] = useState()
-
-  // Sync Lists and Most Recent List
-  let lists
-  let lastList
-    
-  if(currentUser) {
-      lists = currentUser.user_lists
-
-    if(lists.length === 1){
-      lastList = currentUser.user_lists[0]
-    } else if(lists.length > 1){
-      lastList = lists.reduce((a, b) => (a.date_updated > b.date_updated ? a : b))
-    }
-  }
 
   useEffect(() => {
-    // Handle first list on log in
-    if(isLoading) return;
-
-    if(isAuthenticated) {
-      
-      if(lists && lists.length > 0){
-        setCurrentList(lastList)
-      } else {
-        createNewList()
-      }
-    } else {
-      createNewList()
+    // Get Lists from user and server
+    if(currentUser){
+      ListsDataService.getUserLists(currentUser, setUserLists)
     }
+  }, [currentUser])
 
-  }, [isLoading, isAuthenticated, lists, lastList])
+  useEffect(() => {
+    // Set Recent List
+    if (!userLists) return
+
+    if(userLists.length > 0){
+      ListsDataService.filterRecentList(userLists, setCurrentList)
+    } else {
+      ListsDataService.createNewList(setCurrentList)
+    }
+  }, [userLists])
+
+  useEffect(() => {
+    // Create new list if no user
+    if(isLoading) return
+
+    if(!currentUser){
+      ListsDataService.createNewList(setCurrentList)
+    }
+  }, [isLoading, currentUser])
 
   // Menu Functionality (toggle)
   const [menuOpen, setMenuOpen] = useState(false);
@@ -77,7 +70,7 @@ function App() {
     menuOpen: menuOpen,
     setMenuOpen: setMenuOpen
   }
-
+  
   return (
     <>
     <UserContext.Provider value={{ 
@@ -85,9 +78,8 @@ function App() {
       setCurrentUser: setCurrentUser, 
       currentList: currentList, 
       setCurrentList: setCurrentList, 
-      createNewList: createNewList,
-      sharedLists: sharedLists,
-      setSharedLists: setSharedLists
+      userLists: userLists,
+      setUserLists: setUserLists
     }}>
       <Header menuState={menuState} />
       <Menu menuState={menuState} />
@@ -96,12 +88,5 @@ function App() {
     </>
   );
 }
-
-let vh = window.innerHeight * 0.01;
-document.documentElement.style.setProperty('--vh', `${vh}px`);
-window.addEventListener('resize', () => {
-  let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-});
 
 export default App;

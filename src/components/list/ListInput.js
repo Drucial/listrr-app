@@ -49,8 +49,17 @@ const ListInput = () => {
     } else {
 
       let item = inputValue
+      let formattedList = []
       listArr.push(item)
-      setCurrentList({...currentList, list: listArr, date_updated: date})
+
+        for(let listItem of listArr){
+          let lowerItem = listItem.slice(1).toLowerCase()
+           let capitalFirst = listItem.charAt(0).toUpperCase()
+           formattedList.push(`${capitalFirst}${lowerItem}`)
+        }
+
+      
+      setCurrentList({...currentList, list: formattedList, date_updated: date})
       input.placeholder = 'Enter new list item'
       listInputRef.current.value = ""
     }

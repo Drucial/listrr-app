@@ -1,13 +1,44 @@
-import React from 'react'
-import { animated } from "react-spring";
+import { Transition, animated } from "react-spring";
 
-const Modal = ({ modalMessage, style }) => {
-  return (
-    <animated.div style={style} className="modal-container">
+const Modal = ({ modalMessage, showModal }) => {
+
+  const message = (modalMessage) => {
+    return (
       <div className="modal">
-        {modalMessage}
+        <h3>{modalMessage.h3}</h3>
+        <p>{modalMessage.p}</p>
+        {modalMessage.input}
+        {modalMessage.response  
+          ? <div className="modal-response">
+              <button onClick={modalMessage.btn1f}>{modalMessage.btn1}</button>
+              <button className="btn-outline" onClick={modalMessage.btn2f}>{modalMessage.btn2}</button>
+            </div>
+          : <></>
+        }
       </div>
-    </animated.div>
+    )
+  }
+
+  return (
+    <Transition
+      items={showModal}
+      from={{ 
+        opacity: 0
+      }}
+      enter={{ 
+        opacity: 1
+      }}
+      leave={{ 
+        opacity: 0
+      }}
+      >
+      {(styles, item) =>
+        item && 
+        <animated.div style={styles} className="modal-container">
+            {message(modalMessage)}
+        </animated.div>
+      }
+    </Transition>
   )
 }
 

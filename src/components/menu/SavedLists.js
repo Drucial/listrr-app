@@ -1,40 +1,14 @@
 import React, { useContext } from 'react'
-import SharedDataService from '../../services/sharedLists'
 import { useAuth0 } from "@auth0/auth0-react";
 import UserContext from '../../services/user-context'
+import { Transition, animated } from 'react-spring'
 
 const SavedLists = ({ menuState }) => {
-  const { currentUser, setCurrentList, sharedLists, setSharedLists } = useContext(UserContext)
-  const { isAuthenticated, isLoading } = useAuth0();
-
-  let savedLists
-  if(!currentUser) {
-    savedLists = []
-  }else if(currentUser && sharedLists){
-    savedLists = [...currentUser.user_lists, ...sharedLists]
-  } else {
-    savedLists = [...currentUser.user_lists]
-  }
+  const { userLists, setCurrentList } = useContext(UserContext)
+  const { isLoading } = useAuth0();
 
   function handleClick(list) {
-    if(list.shared_list){
-
-      SharedDataService.getLists(currentUser.user_id)
-      .then(response => {
-        // console.log(response.data)
-        setSharedLists(response.data)
-      })
-      .catch(e => {
-        console.log(e)
-      });
-
-      let index = sharedLists.indexOf(list)
-      let updatedList = sharedLists[index]
-
-      setCurrentList(updatedList)
-    } else {
-      setCurrentList(list)
-    }
+    setCurrentList(list)
     menuState.setMenuOpen(false)
   }
 
@@ -57,19 +31,41 @@ const SavedLists = ({ menuState }) => {
     </span>
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div className="saved-lists"><h2>Loading ...</h2></div>;
   }
 
-  if(isAuthenticated && savedLists.length > 0){
+  if(userLists){
     return (
       <ul className="saved-lists">
-        {savedLists.map((items, index) => 
-        items.shared 
-        ?
-          <li key={index} onClick={() => {handleClick(items)}}>{items.title}{sharedIcon}</li>
-        :
-          <li key={index} onClick={() => {handleClick(items)}}>{items.title}</li>)
-      }
+        <Transition
+          items={userLists}
+          from={{ 
+            opacity: 0,
+            height: 0,
+            padding: 0,
+            overflow: 'hidden',
+          }}
+          enter={{ 
+            opacity: 1,
+            height: 64,
+            padding: 20,
+          }}
+          leave={{ 
+            opacity: 0,
+            height: 0,
+            padding: 0,
+            overflow: 'hidden',
+          }}
+          reverse={userLists}
+          delay={200}
+        >
+        {(styles, item) =>
+          item && item.shared ?
+            <animated.li style={styles} onClick={() => {handleClick(item)}}>{item.title}{sharedIcon}</animated.li>
+          :
+            <animated.li style={styles} onClick={() => {handleClick(item)}}>{item.title}</animated.li>
+        }
+        </Transition>
       </ul>
     )
   } else {
