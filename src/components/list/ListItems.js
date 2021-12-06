@@ -1,18 +1,22 @@
 import React, { useContext } from 'react'
-import UserContext from '../../services/user-context'
 import { Transition, animated } from 'react-spring'
+import UserContext from '../../services/user-context'
+import ListsDataService from '../../services/lists'
 
 const ListItems = () => {
-  const { currentList, setCurrentList } = useContext(UserContext)
+  const { currentList, setCurrentList, userLists, setUserLists, currentUser, setCurrentUser } = useContext(UserContext)
   let list = currentList.list
 
-  function handleClick(items) {
-    let list = currentList.list
-    let index = list.indexOf(items)
+  function handleClick(item) {
     let date = new Date().toISOString()
+    let filteredList = list.filter(function(e) {
+      return e !== item
+    })
   
-    list.splice(index, 1)
-    setCurrentList({...currentList, list: list, date_updated: date})
+    const updatedList = {...currentList, list: filteredList, date_updated: date}
+    setCurrentList(updatedList)
+
+    ListsDataService.saveList(updatedList, userLists, setUserLists, currentUser, setCurrentUser)
   }
 
   return (

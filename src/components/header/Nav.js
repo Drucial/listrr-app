@@ -8,6 +8,7 @@ const Nav = ({ menuState }) => {
 
 	function handleNewList() {
 		ListsDataService.createNewList(setCurrentList)
+		menuState.setMenuOpen(false)
 	}
 
 	function toggleMenu() {

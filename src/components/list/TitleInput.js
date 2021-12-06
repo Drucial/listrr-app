@@ -1,9 +1,10 @@
 import React, { useRef, useContext, useEffect } from "react";
-import UserContext from '../../services/user-context';
 import { Transition, animated } from "react-spring";
+import UserContext from '../../services/user-context';
+import ListsDataService from '../../services/lists'
 
 const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
-	const { currentUser, currentList, setCurrentList } = useContext(UserContext)
+	const { currentList, setCurrentList, userLists, setUserLists, currentUser, setCurrentUser } = useContext(UserContext)
 	const titleInputRef = useRef()
 	
 	// Enter Keydown Handler for Input Field
@@ -49,7 +50,11 @@ const TitleInput = ({ showTitleInput, setShowTitleInput }) => {
 	const setTitle = () => {
 		let date = new Date().toISOString()
 		let title = titleInputRef.current.value
-		setCurrentList({...currentList, title: title, date_updated: date, })
+
+		const updatedList = {...currentList, title: title, date_updated: date, }
+		setCurrentList(updatedList)
+
+		ListsDataService.saveList(updatedList, userLists, setUserLists, currentUser, setCurrentUser)
 
 		titleInputRef.current.placeholder = "Enter list name"
 		titleInputRef.current.value = ""

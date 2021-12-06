@@ -97,7 +97,7 @@ class ListsDataService {
     }
   }
 // 
-  shareList = (email, currentList, currentUser, setCurrentUser, userLists, setUserLists) => {
+  shareList = (email, currentList, currentUser, setCurrentUser, userLists, setUserLists, setModalMessage) => {
     
     UserDataService.getSharedUser(email)
       .then(response => {
@@ -108,14 +108,45 @@ class ListsDataService {
       });
       
     const validateUser = (sharedUser) => {
+      let message
+
       if(!sharedUser) {
-        console.log('user doesn\'t exist')
-        // Email user a copy of the list and invite to Listrr
+        let data = JSON.stringify({
+          to: email,
+          list: currentList,
+          from: currentUser.name
+        })
+
+        SharedListsService.shareList(data)
+          .then(response => {
+            console.log(response)
+          })
+          .catch(e => {
+            console.log(e)
+          });
+
+        message = {
+          h3: `${email} isn't using Listrr!`,
+          p: `We have emailed them a copy of your ${currentList.title} list though!`,
+          btn0: 'Ok',
+        }
+        setModalMessage(message)
       } else if(currentList.shared_users.includes(sharedUser[0].user_id)) {
-        console.log(`${sharedUser[0].email} is already sharing this list`)
-        // Show modal with above message
+        message = {
+          h3: 'whoops!',
+          p: `${sharedUser[0].email} is already sharing this list`,
+          btn0: 'Ok',
+        }
+        setModalMessage(message)
       } else {
         syncSharedLists(sharedUser[0])
+
+        message = {
+          h3: 'Success!',
+          p: `We have shared your list with ${email}`,
+          btn0: 'Ok',
+        }
+        setModalMessage(message)
       }
     }
 
@@ -129,8 +160,8 @@ class ListsDataService {
           shared_users: [...currentList.shared_users, sharedUser.user_id], 
           date_updated: date
         }
-
         SharedDataService.updateList(list)
+
       } else {
         list = {
           ...currentList, 
@@ -138,8 +169,8 @@ class ListsDataService {
           shared_users: [currentUser.user_id, sharedUser.user_id], 
           date_updated: date
         }
-
         SharedDataService.newList(list)
+        
       }
 
       let filteredLists = userLists.filter(function(e) {

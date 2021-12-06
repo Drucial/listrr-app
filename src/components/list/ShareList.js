@@ -59,7 +59,7 @@ const ShareList = ({ setShowModal, setModalMessage }) => {
   }
 
   const shareList = (email) => {
-    ListsDataService.shareList(email, currentList, currentUser, setCurrentUser,  userLists, setUserLists)
+    ListsDataService.shareList(email, currentList, currentUser, setCurrentUser,  userLists, setUserLists, setModalMessage)
   }
   
   return (

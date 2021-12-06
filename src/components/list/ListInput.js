@@ -1,8 +1,9 @@
 import React, { useRef, useContext, useEffect } from 'react'
 import UserContext from '../../services/user-context'
+import ListsDataService from '../../services/lists'
 
 const ListInput = () => {
-  const { currentList, setCurrentList } = useContext(UserContext)
+  const { currentList, setCurrentList, userLists, setUserLists, currentUser, setCurrentUser } = useContext(UserContext)
   const listInputRef = useRef()
 
   // Enter Keydown Handler for Input Field
@@ -57,11 +58,13 @@ const ListInput = () => {
            let capitalFirst = listItem.charAt(0).toUpperCase()
            formattedList.push(`${capitalFirst}${lowerItem}`)
         }
-
+      let updatedList = {...currentList, list: formattedList, date_updated: date}
       
-      setCurrentList({...currentList, list: formattedList, date_updated: date})
+      setCurrentList(updatedList)
       input.placeholder = 'Enter new list item'
       listInputRef.current.value = ""
+
+      ListsDataService.saveList(updatedList, userLists, setUserLists, currentUser, setCurrentUser)
     }
   }
 

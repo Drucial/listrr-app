@@ -1,4 +1,5 @@
 import http from "../http-common";
+import axios from 'axios'
 
 class SharedListsService {
 
@@ -16,6 +17,9 @@ class SharedListsService {
 
   newList(list) {
     return http.post("/post_shared_list", list)
+  }
+  shareList(data) {
+    return axios.post("https://hooks.zapier.com/hooks/catch/11008323/bmzz9p1/", data)
   }
 
 }
