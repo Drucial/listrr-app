@@ -111,9 +111,18 @@ class ListsDataService {
       let message
 
       if(!sharedUser) {
+        // this email message needs work see: https://zapier.com/app/editor/140273059
+        let htmlList = []
+        
+        for(let item of currentList.list){
+          htmlList.push(`<br />${item}`)
+        }
+
+        console.log(htmlList)
         let data = JSON.stringify({
           to: email,
-          list: currentList,
+          listTitle: currentList.title,
+          list: htmlList,
           from: currentUser.name
         })
 
@@ -170,7 +179,7 @@ class ListsDataService {
           date_updated: date
         }
         SharedDataService.newList(list)
-        
+
       }
 
       let filteredLists = userLists.filter(function(e) {

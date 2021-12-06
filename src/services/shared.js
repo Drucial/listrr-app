@@ -19,7 +19,7 @@ class SharedListsService {
     return http.post("/post_shared_list", list)
   }
   shareList(data) {
-    return axios.post("https://hooks.zapier.com/hooks/catch/11008323/bmzz9p1/", data)
+    return axios.post(process.env.REACT_APP_ZAP_HOOK, data)
   }
 
 }
