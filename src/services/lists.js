@@ -22,7 +22,9 @@ class ListsDataService {
     })
 
     const updatedUser = {...currentUser, user_lists: privateLists, date_updated: date}
-    setCurrentUser(updatedUser)
+
+    // this state function causes list sync issues when lists are shared for the first time. Removing it does not seem to cause issues anywhere else. 
+    // setCurrentUser(updatedUser) 
 
     UserDataService.updateLists(updatedUser)
   }
