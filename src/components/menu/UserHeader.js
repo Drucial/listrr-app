@@ -14,9 +14,9 @@ const UserHeader = () => {
     return (
       <header>
         <div className="user-profile">
-          <img src={currentUser.picture} alt={currentUser.nickname || currentUser.name} />
+          <img src={currentUser.picture} alt={currentUser.name || currentUser.email} />
           <div className="profile-details">
-            <h3 id="userName">{currentUser.nickname || currentUser.name}</h3>
+            <h3 id="userName">{currentUser.name|| currentUser.email}</h3>
             <button className="btn-outline"onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>
           </div>
         </div>

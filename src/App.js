@@ -34,6 +34,7 @@ function App() {
     // Get user from Server at login
     if(isAuthenticated){
       LoginDataService.loginValidation(user, setCurrentUser)
+      console.log(user)
     }
   }, [isAuthenticated, user])
 
